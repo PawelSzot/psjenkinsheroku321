@@ -4,16 +4,14 @@ pipeline {
         maven "M3"
     }
     stages {
-        stage('Buils') {
+        stage('Build') {
             steps {
-                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                sh "mvn clean compile"
             }
-            post {
-                success {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
-                }
+        }
+        stage('Test') {
+            steps {
+                sh "mvn test"
             }
         }
     }
